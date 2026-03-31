@@ -1,4 +1,6 @@
-﻿using System;
+using HotellDB.ViewModels;
+using HotellDB.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +23,23 @@ namespace HotellDB
     public partial class MainWindow : Window
     {
         public MainWindow()
-        {
-            InitializeComponent();
-        }
+{
+    InitializeComponent();
+    NavigationService.NavigateTo += OnNavigate;
+    NavigationService.Navigate(new LoginViewModel());
+}
+
+private void OnNavigate(object viewModel)
+{
+    var view = new ContentControl { Content = CreateViewForViewModel(viewModel) };
+    MainContent.Content = view;
+}
+
+private FrameworkElement CreateViewForViewModel(object viewModel)
+{
+    // Здесь можно использовать DataTemplate или создавать View динамически
+    // Для простоты создадим UserControl
+    return new System.Windows.Controls.UserControl { DataContext = viewModel };
+}
     }
 }
